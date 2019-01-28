@@ -3,18 +3,30 @@ package com.ctc.bo;
 import java.util.Date;
 
 public class EmployeeBO {
-	private String Id;
+	private String id;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String contactNumber;
 	private Date dateOfJoining;
 	private String status;
+	
+	public EmployeeBO(String id, String firstName, String lastName, String email, String contactNumber,
+			Date dateOfJoining, String status) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.contactNumber = contactNumber;
+		this.dateOfJoining = dateOfJoining;
+		this.status = status;
+	}
 	public String getId() {
-		return Id;
+		return id;
 	}
 	public void setId(String id) {
-		Id = id;
+		this.id = id;
 	}
 	public String getFirstName() {
 		return firstName;

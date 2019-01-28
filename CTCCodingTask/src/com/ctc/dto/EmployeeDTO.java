@@ -3,19 +3,31 @@ package com.ctc.dto;
 import java.util.Date;
 
 public class EmployeeDTO {
-	private String Id;
+	private String id;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String contactNumber;
-	private Date date;
+	private Date dateOfJoining;
+	public EmployeeDTO(String id, String firstName, String lastName, String email, String contactNumber,
+			Date dateOfJoining, String status) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.contactNumber = contactNumber;
+		this.dateOfJoining = dateOfJoining;
+		this.status = status;
+	}
 	private String status;
 	
+	
 	public String getId() {
-		return Id;
+		return id;
 	}
 	public void setId(String id) {
-		Id = id;
+		id = id;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -41,11 +53,11 @@ public class EmployeeDTO {
 	public void setContactNumber(String contactNumber) {
 		this.contactNumber = contactNumber;
 	}
-	public Date getDate() {
-		return date;
+	public Date getDateOfJoining() {
+		return dateOfJoining;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDateOfJoining(Date date) {
+		this.dateOfJoining = date;
 	}
 	public String getStatus() {
 		return status;

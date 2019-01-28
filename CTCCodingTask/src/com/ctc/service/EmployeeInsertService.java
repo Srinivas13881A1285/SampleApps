@@ -8,7 +8,7 @@ import com.ctc.dto.EmployeeDTO;
 public interface EmployeeInsertService {
 
 	public String registerEmployee(EmployeeDTO employeeDTO);
-	public List<EmployeeBO> getAllEmployeesList();
+	public List<EmployeeDTO> getAllEmployeesList();
 	public String deleteEmployees(List<EmployeeDTO> listOfEmployeeDTO);
 	public String updateEmployeeDetails(List<EmployeeDTO> listOfEmployeeDTO);
 }
