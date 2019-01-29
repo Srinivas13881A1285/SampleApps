@@ -1,8 +1,11 @@
 package com.ctc.dao;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapperResultSetExtractor;
 
 import com.ctc.bo.EmployeeBO;
 
@@ -27,9 +30,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public final List<EmployeeBO> getAllEmployees() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		List<EmployeeBO> listOfAllEmployees = jt.query(GET_ALL_EMPLOYEES_QRY,new RowMapperResultSetExtractor<List<EmployeeBO>>null{
+		
+			
+		}
+	}	
+	
+
 
 	@Override
 	public final String deleteEmployees(List<EmployeeBO> listOfEmployeeBO) {
