@@ -6,19 +6,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.ctc.bo.EmployeeBO;
 
+@Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
 
-	private static final String INSERT_QRY = "INSERT INTO EMP VALUES (?,?,?,?,?,?,?)";
+	private static final String INSERT_QRY = "INSERT INTO EMP(EMPID,FIRSTNAME,LASTNAME,EMAIL,CONTACTNUMBER,DOB,STATUS) VALUES(?,?,?,?,?,?,?)";
 	private static final String UPDATE_QRY = "UPDATE EMP SET FIRSTNAME=?,LASTNAME=?EMAIL=?,CONTACTNUMBER=?,DATE=?,STATUS=? WHERE EMPID=?";
 	private static final String DELETE_QRY = "DELETE ";
 	private static final String GET_ALL_EMPLOYEES_QRY = "SELECT * FROM EMP";
+	private static final String GET_EMP_BY_NO = "SELECT * FROM EMP WHERE EMPID=?";
+	private static final String DELETE_EMP_BY_NO="DELETE FROM EMP WHERE EMPID=?"; 
 	
+	@Autowired
 	private JdbcTemplate jt;
 	
 	public void setJt(JdbcTemplate jt) {
@@ -79,5 +85,37 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			ps.setString(7, listOfEmployeeBO.get(index).getStatus());
 		}
 	}
+
+	public EmployeeBO getEmpByNo(int empNo) {
+		EmployeeBO bo=null; 		  
+		bo=jt.queryForObject(GET_EMP_BY_NO, new RowMapper<EmployeeBO>() {
+
+			public EmployeeBO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				EmployeeBO bo=new EmployeeBO();
+				bo.setId(rs.getString(1));
+				bo.setFirstName(rs.getString(2));
+				bo.setLastName(rs.getString(3));
+				bo.setEmail(rs.getString(4));
+				bo.setContactNumber(rs.getString(5));
+				bo.setDateOfJoining(rs.getDate(6));
+				bo.setStatus(rs.getString(7));
+				return bo;
+			}}, empNo);
+		return bo;		
+	}
+
+	public int updateEmployee(EmployeeBO employeeBO) {
+		int count=0;
+		//use template 
+		count = jt.update(UPDATE_QRY,employeeBO.getId(),employeeBO.getFirstName(),employeeBO.getLastName(),employeeBO.getEmail(),employeeBO.getContactNumber(),employeeBO.getDateOfJoining(),employeeBO.getStatus());	  
+		return count;
+	}//updateEmployee(-)
 	
+	public int deleteEmployee(int empNo) {
+		int count=0;
+		//USE template
+		count=jt.update(DELETE_EMP_BY_NO, empNo);
+		return count;
+	}//deleteEmployee(-)
+
 }

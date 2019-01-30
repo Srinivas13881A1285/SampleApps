@@ -11,4 +11,8 @@ public interface EmployeeInsertService {
 	public List<EmployeeDTO> getAllEmployeesList();
 	public String deleteEmployees(List<EmployeeDTO> listOfEmployeeDTO);
 	public String updateEmployeeDetails(List<EmployeeDTO> listOfEmployeeDTO);
+	public EmployeeDTO fetchEmployeeByNo(int empNo);
+	public String modifyEmployee(EmployeeDTO dto);
+	public String removeEmployee(int empNo); 
+
 }

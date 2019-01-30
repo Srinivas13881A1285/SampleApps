@@ -9,6 +9,10 @@ public class EmployeeDTO {
 	private String email;
 	private String contactNumber;
 	private Date dateOfJoining;
+	
+	public EmployeeDTO() {
+		
+	}
 	public EmployeeDTO(String id, String firstName, String lastName, String email, String contactNumber,
 			Date dateOfJoining, String status) {
 		super();
@@ -27,7 +31,7 @@ public class EmployeeDTO {
 		return id;
 	}
 	public void setId(String id) {
-		id = id;
+		this.id = id;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -64,6 +68,11 @@ public class EmployeeDTO {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	@Override
+	public String toString() {
+		return "EmployeeDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", contactNumber=" + contactNumber + ", dateOfJoining=" + dateOfJoining + ", status=" + status + "]";
 	}
 	
 }
