@@ -1,25 +1,27 @@
 package com.ctc.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.ctc.command.EmployeeCommand;
+import com.ctc.command.Employee;
 import com.ctc.dto.EmployeeDTO;
 import com.ctc.service.EmployeeInsertService;
+import com.ctc.validator.EmployeeValidator;
 
 @Controller
 public class EmployeeController{
@@ -27,73 +29,47 @@ public class EmployeeController{
 	@Autowired
 	private EmployeeInsertService employeeService;
 	
-	public void setEmployeeService(EmployeeInsertService employeeService) {
-		this.employeeService = employeeService;
-	}
+	@Autowired
+	private EmployeeValidator employeeValidator;
 	
 	@RequestMapping("/welcome.htm")
 	public String showHome() {
 		return "welcome";		
 	}
+	
 
 	@RequestMapping(value="/insert.htm", method=RequestMethod.GET)
-	public String displayForm(@ModelAttribute("employee") EmployeeCommand cmd, HttpSession ses ) {
-		int serverToken=0;
-		serverToken=new Random().nextInt(1000);
-		ses.setAttribute("serverToken",serverToken);
-		cmd.setClientToken(serverToken);		 
+	public String displayForm(Model model) {
+		Employee employeeCommand = new  Employee();
+		model.addAttribute("employee", employeeCommand);
 		return "input";		
 	}
 	
 	@RequestMapping(value="/insert.htm", method=RequestMethod.POST)
-	public ModelAndView  register(@Validated @ModelAttribute("employee") EmployeeCommand cmd ,BindingResult br, HttpSession ses) {
-		System.out.println(cmd);
-		int serverToken=0;  
-		int clientToken=0;
-		serverToken=(Integer)ses.getAttribute("serverToken");  	 
-		clientToken=cmd.getClientToken();
-		System.out.println("data");
-		System.out.println(cmd);
-		System.out.println("CLEINT TKN ::"+clientToken);
-		System.out.println("SER TKN ::"+serverToken);
-		if(true)                      
-		{	
-			ses.setAttribute("serverToken",new Random().nextInt(1000));
-			if(br.hasErrors()) {
-				return new ModelAndView("input");
+	public String register(Model model,@ModelAttribute("employee") Employee cmd ,BindingResult errors) {
+		
+		EmployeeDTO employeeDTO = new EmployeeDTO();
+		employeeDTO.setId(cmd.getId());
+		employeeDTO.setFirstName(cmd.getFirstName());
+		employeeDTO.setLastName(cmd.getLastName());
+		employeeDTO.setEmail(cmd.getEmail());
+		employeeDTO.setContactNumber(cmd.getContactNumber());
+		employeeDTO.setDateOfJoining(cmd.getDateOfJoining());
+		employeeDTO.setStatus(cmd.getStatus());
+		
+		
+		if(employeeValidator.supports(Employee.class)) {
+			employeeValidator.validate(cmd, errors);
+			if(errors.hasErrors()) {
+				return "input";
 			}
-			else {
-				EmployeeDTO dto=null;
-				String result=null;
-				ModelAndView mav=null;
-				dto=new EmployeeDTO();
-				//convert command obj to DTO
-				dto.setId(cmd.getId());
-				dto.setFirstName(cmd.getFirstName());
-				dto.setLastName(cmd.getLastName());
-				dto.setEmail(cmd.getEmail());
-				dto.setContactNumber(cmd.getContactNumber());
-				dto.setDateOfJoining(cmd.getDateOfJoining());
-				dto.setStatus(cmd.getStatus());
-				
-                 try {
-				//use service
-                	 	result=employeeService.registerEmployee(dto);
-                 }
-                 catch (Exception e) {
-					e.printStackTrace();
-				}
-				mav=new ModelAndView();
-				mav.addObject("result", result);
-				mav.setViewName("result");
-				return mav;
-			}
-		}//if
-		else 
-		{
-			return new ModelAndView("double_post");
 		}
-	}//register(-,-)
+		
+		String result = employeeService.registerEmployee(employeeDTO);
+		model.addAttribute("statusMessage",result);
+		return "result";
+	}
+	
 	
 	@RequestMapping(value="/selectAll.htm")
 	public  String retriveAllEmployees(Map<String,Object> map){
@@ -116,7 +92,7 @@ public class EmployeeController{
 	}//retriveEmployeeByEmpNo(-,-)
 
 	@RequestMapping(value="/saveEditedData.htm", method=RequestMethod.POST)
-	public String updateProfile(@ModelAttribute("employee") EmployeeCommand cmd, Map<String,Object> map ) {
+	public String updateProfile(@ModelAttribute("employee") Employee cmd, Map<String,Object> map ) {
 		EmployeeDTO dto=null;
 		String result=null;
 		//convert cmd to dto
@@ -138,12 +114,16 @@ public class EmployeeController{
 	public String deleteEmployeeDetails(@RequestParam("deleteCheckBoxes")String[] chboxvals,  Map<String,Object> map) {
 		String deleteResult=null;
 		System.out.println("deleteeeeeeeeeeEMP :::"+Arrays.toString(chboxvals));
-		//use service
-		 
-			
-		deleteResult=employeeService.removeEmployee(Integer.parseInt(chboxvals[0]));
+		deleteResult=employeeService.deleteEmployees(chboxvals);
 		map.put("result", deleteResult);
 		return "result";
 		 
 	}//deleteEmployeeDetails
+	
+
+	@InitBinder
+	public void myInitBinder(WebDataBinder binder) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf,true));
+	}
 }

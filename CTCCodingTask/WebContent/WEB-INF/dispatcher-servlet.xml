@@ -7,57 +7,20 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-  <property name="defaultLocale"  value="en"></property>
-</bean>
 
-<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
- <property name="paramName" value="lang"></property>
-</bean>
 
-<!-- 	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/editEmp.htm" />
-			<bean class="com.ritwik.interceptors.BrowserCheckInterceptor"></bean>
-			<ref bean="bci"></ref>
-		</mvc:interceptor>
-		<mvc:interceptor>
-			<mvc:mapping path="/insert.htm" />
-			<bean
-				class="com.ritwik.interceptors.RegistrationTimeCheckInterceptor"></bean>
-		</mvc:interceptor>
-	</mvc:interceptors>
- -->
- 
- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
-   <property name="interceptors">
-     <list>
-        <ref bean="localeChangeInterceptor"/>     
-     </list>
-   
-   </property>
- 
- </bean> 
+ <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+ 	<property name="basename" value="com/ctc/commons/Errors"/>
+ </bean>
 
-<!-- <bean id="suhm" -->
-<!-- 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"> -->
-<!-- 		<property name="mappings"> -->
-<!-- 			<props> -->
-<!-- 				<prop key="/welcome.htm">pvc1</prop> -->
-<!-- 			</props> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean id="pvc1" class="org.springframework.web.servlet.mvc.ParameterizableViewController"> -->
-<!-- 		<property name="viewName" value="welcome"/> -->
-<!-- 	</bean> -->
+<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/pages/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-<context:component-scan
-		base-package="com.ctc.controller"></context:component-scan>
-<mvc:annotation-driven />
- <mvc:default-servlet-handler/>
+	
+	
+<context:component-scan base-package="com.ctc.controller,com.ctc.validator"/>
+		
 </beans>

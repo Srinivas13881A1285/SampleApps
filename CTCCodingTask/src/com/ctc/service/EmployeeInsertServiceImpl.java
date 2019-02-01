@@ -42,32 +42,15 @@ public class EmployeeInsertServiceImpl implements EmployeeInsertService {
 	}
 
 	@Override
-	public String deleteEmployees(List<EmployeeDTO> listOfEmployeeDTO) {
-		List<EmployeeBO> listOfEmployeeBO = new ArrayList<EmployeeBO>();
-		for(EmployeeDTO employeeDTO : listOfEmployeeDTO) {
-			EmployeeBO employeeBO = new EmployeeBO(employeeDTO.getId(),employeeDTO.getFirstName(),employeeDTO.getLastName(),employeeDTO.getEmail(),employeeDTO.getContactNumber(),employeeDTO.getDateOfJoining(),employeeDTO.getStatus());
-			listOfEmployeeBO.add(employeeBO);
-		}
-		int[] result = employeeDao.deleteEmployees(listOfEmployeeBO);
-		if(result==null)
+	public String deleteEmployees(String[] Ids) {
+		int result = employeeDao.deleteEmployees(Ids);
+		if(result==0)
 			return "Delete unsucessful";
 		else 
 			return "Delete Successful";
 	}
 
-	@Override
-	public String updateEmployeeDetails(List<EmployeeDTO> listOfEmployeeDTO) {
-		List<EmployeeBO> listOfEmployeeBO = new ArrayList<EmployeeBO>();
-		for(EmployeeDTO employeeDTO : listOfEmployeeDTO) {
-			EmployeeBO employeeBO = new EmployeeBO(employeeDTO.getId(),employeeDTO.getFirstName(),employeeDTO.getLastName(),employeeDTO.getEmail(),employeeDTO.getContactNumber(),employeeDTO.getDateOfJoining(),employeeDTO.getStatus());
-			listOfEmployeeBO.add(employeeBO);
-		}
-		int[] result = employeeDao.updateEmployees(listOfEmployeeBO);
-		if(result==null)
-			return "Update unsucessful";
-		else 
-			return "Update Successful";
-	}
+	
 	public EmployeeDTO fetchEmployeeByNo(int empNo) {
 		EmployeeBO bo = null;
 		EmployeeDTO dto=null;

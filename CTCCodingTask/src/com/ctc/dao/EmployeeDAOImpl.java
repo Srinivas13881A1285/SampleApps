@@ -22,14 +22,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	private static final String DELETE_QRY = "DELETE ";
 	private static final String GET_ALL_EMPLOYEES_QRY = "SELECT * FROM EMP";
 	private static final String GET_EMP_BY_NO = "SELECT * FROM EMP WHERE EMPID=?";
-	private static final String DELETE_EMP_BY_NO="DELETE FROM EMP WHERE EMPID=?"; 
+	private static final String DELETE_EMP_BY_NO="DELETE FROM EMP WHERE EMPID IN "; 
 	
 	@Autowired
 	private JdbcTemplate jt;
 	
-	public void setJt(JdbcTemplate jt) {
-		this.jt = jt;
-	}
+	
 
 	@Override
 	public  int insert(EmployeeBO employeeBO) {
@@ -52,39 +50,25 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public final int[] deleteEmployees(List<EmployeeBO> listOfEmployeeBO) {
-		int[] result = jt.batchUpdate(DELETE_QRY,new BatchUpdate(listOfEmployeeBO));
+	public int deleteEmployees(String[] ids) {
+		String condition;
+		StringBuffer sb = new StringBuffer("(");
+		for(int i=0;i<ids.length;i++) {
+			if(i==ids.length-1)
+				sb.append("'"+ids[i]+"'");
+			else
+				sb.append("'"+ids[i]+"',");
+		}
+		sb.append(")");
+		condition = sb.toString();
+		int result = jt.update(DELETE_QRY+condition);
 		return result;
 	}
 	
 	
-	@Override
-	public final int[] updateEmployees(List<EmployeeBO> listOfEmployeeBO) {
-		int[] result = jt.batchUpdate(UPDATE_QRY,new BatchUpdate(listOfEmployeeBO));
-		return result;
-	}
 
-	private static final class BatchUpdate implements BatchPreparedStatementSetter{
-		private List<EmployeeBO> listOfEmployeeBO;
-		public BatchUpdate(List<EmployeeBO> listOfEmployeeBO) {
-			this.listOfEmployeeBO = listOfEmployeeBO;
-		}
-		@Override
-		public int getBatchSize() {
-			return listOfEmployeeBO.size();
-		}
 
-		@Override
-		public void setValues(PreparedStatement ps, int index) throws SQLException {
-			ps.setString(1, listOfEmployeeBO.get(index).getId());
-			ps.setString(2, listOfEmployeeBO.get(index).getFirstName());
-			ps.setString(3, listOfEmployeeBO.get(index).getLastName());
-			ps.setString(4, listOfEmployeeBO.get(index).getEmail());
-			ps.setString(5, listOfEmployeeBO.get(index).getContactNumber());
-			ps.setDate(6, (Date) listOfEmployeeBO.get(index).getDateOfJoining());
-			ps.setString(7, listOfEmployeeBO.get(index).getStatus());
-		}
-	}
+
 
 	public EmployeeBO getEmpByNo(int empNo) {
 		EmployeeBO bo=null; 		  
@@ -118,4 +102,5 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return count;
 	}//deleteEmployee(-)
 
+	
 }

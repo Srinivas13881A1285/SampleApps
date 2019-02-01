@@ -58,11 +58,9 @@
     </f:form>
     
     <br><br>
-    <a href="welcome.htm"><t:message code="link.text.home" text="bk"></t:message></a>
-    
-	&nbsp;&nbsp;<a href="selectAll.htm?lang=hi"><%-- <t:message code="link.text.hindi"/> --%>
-</a>&nbsp;&nbsp;&nbsp;
+    <a href="welcome.htm">Home</a>
+
      
-<a href="selectAll.htm?lang=en">English</a>&nbsp;&nbsp;<a href="selectAll.htm?lang=de">German</a>
+
 </body>
 </html>
