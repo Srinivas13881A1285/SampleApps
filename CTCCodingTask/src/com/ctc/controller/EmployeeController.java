@@ -81,37 +81,28 @@ public class EmployeeController{
 
 	}
 	
-	@RequestMapping(value="/editEmp.htm" , method=RequestMethod.POST)
-	public  String retriveEmployeeByEmpNo(@RequestParam("editCheckBoxes")String[] checkboxValues, Map<String, Object> map){
-		EmployeeDTO  dtoByNo=null;
-		System.out.println("editttttttttttttttttttchecBB   ::"+Arrays.toString(checkboxValues));
-		//use service
-		dtoByNo=employeeService.fetchEmployeeByNo(Integer.parseInt(checkboxValues[0]));
-		map.put("dtoByNo", dtoByNo);
-		return "edit_employee";    	 
+	@RequestMapping(value="/editEmpActive.htm" , method=RequestMethod.POST)
+	public  String updateEmployeeStatusToActive(@RequestParam("checkBoxes")String[] checkboxValues, Map<String, Object> map){
+		String updateResult = employeeService.updateEmployees(checkboxValues,"active");
+		map.put("result", updateResult);
+		return "result";
+		
+	}//retriveEmployeeByEmpNo(-,-)
+	
+	
+	@RequestMapping(value="/editEmpInactive.htm" , method=RequestMethod.POST)
+	public  String updateEmployeeStatusToInActive(@RequestParam("checkBoxes")String[] checkboxValues, Map<String, Object> map){
+		String updateResult = employeeService.updateEmployees(checkboxValues,"inactive");
+		map.put("result", updateResult);
+		return "result";
+		
 	}//retriveEmployeeByEmpNo(-,-)
 
-	@RequestMapping(value="/saveEditedData.htm", method=RequestMethod.POST)
-	public String updateProfile(@ModelAttribute("employee") Employee cmd, Map<String,Object> map ) {
-		EmployeeDTO dto=null;
-		String result=null;
-		//convert cmd to dto
-		dto=new EmployeeDTO(); 
-		dto.setId(cmd.getId());//use servcie
-		dto.setFirstName(cmd.getFirstName());
-		dto.setLastName(cmd.getLastName());
-		dto.setEmail(cmd.getEmail());
-		dto.setContactNumber(cmd.getContactNumber());
-		dto.setDateOfJoining(cmd.getDateOfJoining());
-		dto.setStatus(cmd.getStatus());
-		result= employeeService.modifyEmployee(dto);
-		map.put("updateResult",result);
-		return "edit_employee";
 
-	}//updateProfile(-)
+
 
 	@RequestMapping(value="/deleteEmp.htm", method=RequestMethod.POST)
-	public String deleteEmployeeDetails(@RequestParam("deleteCheckBoxes")String[] chboxvals,  Map<String,Object> map) {
+	public String deleteEmployeeDetails(@RequestParam("checkBoxes")String[] chboxvals,  Map<String,Object> map) {
 		String deleteResult=null;
 		System.out.println("deleteeeeeeeeeeEMP :::"+Arrays.toString(chboxvals));
 		deleteResult=employeeService.deleteEmployees(chboxvals);

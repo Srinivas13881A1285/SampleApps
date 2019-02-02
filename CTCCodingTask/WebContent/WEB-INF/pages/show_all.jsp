@@ -40,18 +40,19 @@
 <%--                <td> <a href="editEmp.htm?empNo=${dto.empNo}"><t:message code="table.column.name.edit"/></a> 
  --%>      
                          
-           <td><input type="checkbox" name="editCheckBoxes" value="${dto.id}"></td>
+           <td><input type="checkbox" name="checkBoxes" value="${dto.id}"></td>
                
 <%--                <td><a style="color:green" href="deleteEmp.htm?empNo=${dto.empNo}"><t:message code="table.column.name.delete"/></a> </td>                      
  --%>
-                 <td>  <input type="checkbox" name="deleteCheckBoxes" value="${dto.id}"></td>
+                
               </tr>          
          </c:forEach> 
     </table>
   <br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
        
-    <input type="submit"  value="update" formaction="editEmp.htm">&nbsp;
+    <input type="submit"  value="update to active" formaction="editEmpActive.htm">&nbsp;
+    <input type="submit"  value="update to inactive" formaction="editEmpInactive.htm">&nbsp;
     <input type="submit"  value="delete" formaction="deleteEmp.htm">&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
    

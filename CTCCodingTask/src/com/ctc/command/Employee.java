@@ -11,14 +11,14 @@ public class Employee {
 	private String contactNumber;
 	private Date dateOfJoining;
 	private String status;
-	private String[] deleteCheckBoxes;
+	private String[] checkBoxes;
 	
-	public void setDeleteCheckBoxes(String[] deleteCheckBoxes) {
-		this.deleteCheckBoxes = deleteCheckBoxes;
+	public void setDeleteCheckBoxes(String[] checkBoxes) {
+		this.checkBoxes = checkBoxes;
 	}
 	
 	public String[] getDeleteCheckBoxes() {
-		return deleteCheckBoxes;
+		return checkBoxes;
 	}
 	
 	public Employee() {

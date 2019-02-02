@@ -8,7 +8,7 @@
 </head>
 <body bgcolor="orange" text="white">
   
-    ${statusMessage} 
+    ${result} 
     
     
     <br>

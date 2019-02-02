@@ -18,10 +18,8 @@ import com.ctc.bo.EmployeeBO;
 public class EmployeeDAOImpl implements EmployeeDAO {
 
 	private static final String INSERT_QRY = "INSERT INTO EMP(EMPID,FIRSTNAME,LASTNAME,EMAIL,CONTACTNUMBER,DOB,STATUS) VALUES(?,?,?,?,?,?,?)";
-	private static final String UPDATE_QRY = "UPDATE EMP SET FIRSTNAME=?,LASTNAME=?EMAIL=?,CONTACTNUMBER=?,DATE=?,STATUS=? WHERE EMPID=?";
-	private static final String DELETE_QRY = "DELETE ";
+	private static final String UPDATE_QRY = "UPDATE EMP SET STATUS=? WHERE EMPID IN ";
 	private static final String GET_ALL_EMPLOYEES_QRY = "SELECT * FROM EMP";
-	private static final String GET_EMP_BY_NO = "SELECT * FROM EMP WHERE EMPID=?";
 	private static final String DELETE_EMP_BY_NO="DELETE FROM EMP WHERE EMPID IN "; 
 	
 	@Autowired
@@ -61,46 +59,33 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 		sb.append(")");
 		condition = sb.toString();
-		int result = jt.update(DELETE_QRY+condition);
+		System.out.println(DELETE_EMP_BY_NO.concat(condition));
+		int result =jt.update(DELETE_EMP_BY_NO.concat(condition));
 		return result;
 	}
-	
-	
 
-
-
-
-	public EmployeeBO getEmpByNo(int empNo) {
-		EmployeeBO bo=null; 		  
-		bo=jt.queryForObject(GET_EMP_BY_NO, new RowMapper<EmployeeBO>() {
-
-			public EmployeeBO mapRow(ResultSet rs, int rowNum) throws SQLException {
-				EmployeeBO bo=new EmployeeBO();
-				bo.setId(rs.getString(1));
-				bo.setFirstName(rs.getString(2));
-				bo.setLastName(rs.getString(3));
-				bo.setEmail(rs.getString(4));
-				bo.setContactNumber(rs.getString(5));
-				bo.setDateOfJoining(rs.getDate(6));
-				bo.setStatus(rs.getString(7));
-				return bo;
-			}}, empNo);
-		return bo;		
+	@Override
+	public int updateEmployees(String[] ids,String status) {
+		String condition;
+		StringBuffer sb = new StringBuffer("(");
+		for(int i=0;i<ids.length;i++) {
+			if(i==ids.length-1)
+				sb.append("'"+ids[i]+"'");
+			else
+				sb.append("'"+ids[i]+"',");
+		}
+		sb.append(")");
+		condition = sb.toString();
+		System.out.println(UPDATE_QRY.concat(condition));
+		int result =jt.update(UPDATE_QRY.concat(condition),status);
+		return result;
 	}
 
-	public int updateEmployee(EmployeeBO employeeBO) {
-		int count=0;
-		//use template 
-		count = jt.update(UPDATE_QRY,employeeBO.getId(),employeeBO.getFirstName(),employeeBO.getLastName(),employeeBO.getEmail(),employeeBO.getContactNumber(),employeeBO.getDateOfJoining(),employeeBO.getStatus());	  
-		return count;
-	}//updateEmployee(-)
+
+
+
 	
-	public int deleteEmployee(int empNo) {
-		int count=0;
-		//USE template
-		count=jt.update(DELETE_EMP_BY_NO, empNo);
-		return count;
-	}//deleteEmployee(-)
+	
 
 	
 }

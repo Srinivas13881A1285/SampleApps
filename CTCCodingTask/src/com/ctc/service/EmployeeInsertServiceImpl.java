@@ -49,41 +49,18 @@ public class EmployeeInsertServiceImpl implements EmployeeInsertService {
 		else 
 			return "Delete Successful";
 	}
-
-	
-	public EmployeeDTO fetchEmployeeByNo(int empNo) {
-		EmployeeBO bo = null;
-		EmployeeDTO dto=null;
-		//use DAO
-		bo=employeeDao.getEmpByNo(empNo);
-		//convert bo to dto
-		dto=new EmployeeDTO();
-		BeanUtils.copyProperties(bo, dto);
-		return dto;
-
-	}// fetchEmployeeByNo(-)
-	
-	public String modifyEmployee(EmployeeDTO dto) {
-		EmployeeBO bo=null;
-		int count=0; 
-		bo=new  EmployeeBO();
-		BeanUtils.copyProperties(dto, bo);
-		//use DAO
-		count=employeeDao.updateEmployee(bo);
-		if (count==0)
-			return "Record not upated";
+	@Override
+	public String updateEmployees(String[] ids,String status) {
+		int result = employeeDao.updateEmployees(ids,status);
+		if(result ==  0)
+			return "Update Fail";
 		else
-			return "Record updated successsfully";
-
+			return "Update Sucess";
 	}
-	public String removeEmployee(int empNo) {
-		int count=0;
-		//use dao 
-		count=employeeDao.deleteEmployee(empNo);
-		if(count==0)
-			return "Record not deleted";
-		else
-			return "Record deleted";
 
-	}// removeEmployee(-)
+	
+
+	
+	
+
 }

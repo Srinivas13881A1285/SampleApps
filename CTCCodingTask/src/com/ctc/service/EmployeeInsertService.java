@@ -9,10 +9,7 @@ public interface EmployeeInsertService {
 
 	public String registerEmployee(EmployeeDTO employeeDTO);
 	public List<EmployeeDTO> getAllEmployeesList();
-	public String deleteEmployees(String[] Ids);
-	public String updateEmployeeDetails(List<EmployeeDTO> listOfEmployeeDTO);
-	public EmployeeDTO fetchEmployeeByNo(int empNo);
-	public String modifyEmployee(EmployeeDTO dto);
-	public String removeEmployee(int empNo); 
+	public String deleteEmployees(String[] ids);
+	public String updateEmployees(String[] ids,String status); 
 
 }
