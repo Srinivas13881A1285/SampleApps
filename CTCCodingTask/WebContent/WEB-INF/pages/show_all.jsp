@@ -51,16 +51,16 @@
   <br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
        
-    <input type="submit"  value="update to active" formaction="editEmpActive.htm">&nbsp;
-    <input type="submit"  value="update to inactive" formaction="editEmpInactive.htm">&nbsp;
+    <input type="submit"  value="update to Active" formaction="editEmpActive.htm">&nbsp;
+    <input type="submit"  value="update to InActive" formaction="editEmpInactive.htm">&nbsp;
+    <input type="submit"  value="update to New" formaction="editEmpNew.htm">&nbsp;
     <input type="submit"  value="delete" formaction="deleteEmp.htm">&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
    
     </f:form>
     
     <br><br>
-    <a href="welcome.htm">Home</a>
-
+ 
      
 
 </body>

@@ -11,19 +11,21 @@
 	<span style='color: red'><form:errors path="*" /></span><br>
 	<br>
 	
-	Id:<form:input path="id" />
+	Id:<form:input path="id" />  EPAM followed by number(example EPAM0001)
+	<br>
 	<br>
 	FirstName:<form:input path="firstName" />
 	<br>
+	<br>
 	LastName:<form:input path="lastName" /><br>
+	<br>
+	Email:<form:input path="email"/>(firstname_lastname@epam.com)<br><br>
 	
-	Email:<form:input path="email"/><br>
+	ContactNumber:<form:input path="contactNumber"/><br><br>
 	
-	ContactNumber:<form:input path="contactNumber"/><br>
+	Date Of Joining:<form:input path="dateOfJoining"/>(dd-MM-yyyy)<br><br>
 	
-	Date Of Joining:<form:input path="dateOfJoining"/>(dd-MM-yyyy)<br>
-	
-	Status:<form:input path="status"/><br>
+	Status:<form:input path="status"/>(New/Active/InActive)<br><br>
 	
 	<input type="submit" value="Login" />
 	<br>

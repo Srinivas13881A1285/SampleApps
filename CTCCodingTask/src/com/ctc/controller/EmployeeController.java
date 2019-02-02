@@ -57,7 +57,6 @@ public class EmployeeController{
 		employeeDTO.setDateOfJoining(cmd.getDateOfJoining());
 		employeeDTO.setStatus(cmd.getStatus());
 		
-		
 		if(employeeValidator.supports(Employee.class)) {
 			employeeValidator.validate(cmd, errors);
 			if(errors.hasErrors()) {
@@ -83,7 +82,7 @@ public class EmployeeController{
 	
 	@RequestMapping(value="/editEmpActive.htm" , method=RequestMethod.POST)
 	public  String updateEmployeeStatusToActive(@RequestParam("checkBoxes")String[] checkboxValues, Map<String, Object> map){
-		String updateResult = employeeService.updateEmployees(checkboxValues,"active");
+		String updateResult = employeeService.updateEmployees(checkboxValues,"Active");
 		map.put("result", updateResult);
 		return "result";
 		
@@ -92,7 +91,17 @@ public class EmployeeController{
 	
 	@RequestMapping(value="/editEmpInactive.htm" , method=RequestMethod.POST)
 	public  String updateEmployeeStatusToInActive(@RequestParam("checkBoxes")String[] checkboxValues, Map<String, Object> map){
-		String updateResult = employeeService.updateEmployees(checkboxValues,"inactive");
+		String updateResult = employeeService.updateEmployees(checkboxValues,"InActive");
+		map.put("result", updateResult);
+		return "result";
+		
+	}//retriveEmployeeByEmpNo(-,-)
+
+	
+
+	@RequestMapping(value="/editEmpNew.htm" , method=RequestMethod.POST)
+	public  String updateEmployeeStatusToNew(@RequestParam("checkBoxes")String[] checkboxValues, Map<String, Object> map){
+		String updateResult = employeeService.updateEmployees(checkboxValues,"New");
 		map.put("result", updateResult);
 		return "result";
 		
@@ -105,10 +114,9 @@ public class EmployeeController{
 	public String deleteEmployeeDetails(@RequestParam("checkBoxes")String[] chboxvals,  Map<String,Object> map) {
 		String deleteResult=null;
 		System.out.println("deleteeeeeeeeeeEMP :::"+Arrays.toString(chboxvals));
-		deleteResult=employeeService.deleteEmployees(chboxvals);
-		map.put("result", deleteResult);
+			deleteResult=employeeService.deleteEmployees(chboxvals);
+			map.put("result", deleteResult);
 		return "result";
-		 
 	}//deleteEmployeeDetails
 	
 
