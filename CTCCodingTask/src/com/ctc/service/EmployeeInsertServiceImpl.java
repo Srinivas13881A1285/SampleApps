@@ -3,7 +3,6 @@ package com.ctc.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +20,12 @@ public class EmployeeInsertServiceImpl implements EmployeeInsertService {
 	}
 	@Override
 	public String registerEmployee(EmployeeDTO employeeDTO) {
-		System.out.println(employeeDTO);
 		EmployeeBO employeeBO = new EmployeeBO(employeeDTO.getId(),employeeDTO.getFirstName(),employeeDTO.getLastName(),employeeDTO.getEmail(),employeeDTO.getContactNumber(),employeeDTO.getDateOfJoining(),employeeDTO.getStatus());
 		int result = employeeDao.insert(employeeBO);
-		if(result == 0)
-			return "insertion failed";
+		if(result == 1)
+			return "Insertion Success";
 		else
-			return "insertion success";
+			return "Insertion Fail";
 	}
 
 	@Override

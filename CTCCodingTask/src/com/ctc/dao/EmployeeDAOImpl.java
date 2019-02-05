@@ -30,16 +30,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public  int insert(EmployeeBO employeeBO) {
 		int result = jt.update(INSERT_QRY,employeeBO.getId(),employeeBO.getFirstName(),employeeBO.getLastName(),employeeBO.getEmail(),employeeBO.getContactNumber(),employeeBO.getDateOfJoining(),employeeBO.getStatus());
+		System.out.println("insertin result"+result);
 		return result;
 	}
 
 	@Override
-	public final List<EmployeeBO> getAllEmployees() {
+	public  List<EmployeeBO> getAllEmployees() {
 		List<EmployeeBO> listBO = (List<EmployeeBO>)jt.query(GET_ALL_EMPLOYEES_QRY, new EmployeeRowMapper());
 		return listBO;
 	}
 	
-	private class EmployeeRowMapper implements RowMapper<EmployeeBO>{
+	public class EmployeeRowMapper implements RowMapper<EmployeeBO>{
 		@Override
 		public EmployeeBO mapRow(ResultSet rs, int pos) throws SQLException {
 			EmployeeBO  empbo = new EmployeeBO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getDate(6),rs.getString(7));

@@ -61,11 +61,11 @@ public class EmployeeController{
 			employeeValidator.validate(cmd, errors);
 			if(errors.hasErrors()) {
 				return "input";
-			}
+			} 
 		}
 		
 		String result = employeeService.registerEmployee(employeeDTO);
-		model.addAttribute("statusMessage",result);
+		model.addAttribute("result",result);
 		return "result";
 	}
 	
@@ -77,7 +77,6 @@ public class EmployeeController{
 		listDTO=employeeService.getAllEmployeesList();
 		map.put("listDTO",listDTO);
 		return   "show_all";
-
 	}
 	
 	@RequestMapping(value="/editEmpActive.htm" , method=RequestMethod.POST)
