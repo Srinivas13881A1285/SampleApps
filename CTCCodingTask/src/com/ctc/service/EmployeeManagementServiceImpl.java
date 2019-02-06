@@ -11,13 +11,13 @@ import com.ctc.bo.EmployeeBO;
 import com.ctc.dao.EmployeeDAO;
 import com.ctc.dto.EmployeeDTO;
 @Service
-public class EmployeeInsertServiceImpl implements EmployeeInsertService {
+public class EmployeeManagementServiceImpl implements EmployeeManagementService {
 	
 	@Autowired
 	private EmployeeDAO employeeDao;
 	
 	@Override
-	public final String registerEmployee(EmployeeDTO employeeDTO) {
+	public String registerEmployee(EmployeeDTO employeeDTO) {
 		EmployeeBO employeeBO = new EmployeeBO(employeeDTO.getId(),employeeDTO.getFirstName(),employeeDTO.getLastName(),employeeDTO.getEmail(),employeeDTO.getContactNumber(),employeeDTO.getDateOfJoining(),employeeDTO.getStatus());
 		int result = employeeDao.insert(employeeBO);
 		if(result == 1)
@@ -27,7 +27,7 @@ public class EmployeeInsertServiceImpl implements EmployeeInsertService {
 	}
 
 	@Override
-	public final List<EmployeeDTO> getAllEmployeesList() {
+	public List<EmployeeDTO> getAllEmployeesList() {
 		List<EmployeeBO> listOfEmployeeBO = employeeDao.getAllEmployees();
 		List<EmployeeDTO> listOfEmployeeDTO = new ArrayList<>();
 		for(EmployeeBO employeeBO : listOfEmployeeBO) {
@@ -38,18 +38,18 @@ public class EmployeeInsertServiceImpl implements EmployeeInsertService {
 	}
 
 	@Override
-	public final String deleteEmployees(String[] ids) {
+	public String deleteEmployees(String[] ids) {
 		int result = employeeDao.deleteEmployees(ids);
-		if(result==1)
+		if(result == ids.length)
 			return Arrays.toString(ids)+" Employees Deleted Successfully";
 		else 
 			return Arrays.toString(ids)+" Employees Not Deleted Successfully";
 	}
 	@Override
-	public final String updateEmployees(String[] ids,String status) {
+	public String updateEmployees(String[] ids,String status) {
 		int result = employeeDao.updateEmployees(ids,status);
-		if(result ==  1)
-			return Arrays.toString(ids)+" Employees Status  Updated to "+status+" Successfully";
+		if(result ==  ids.length)
+			return Arrays.toString(ids)+" Employees Status Updated to "+status+" Successfully";
 		else
 			return Arrays.toString(ids)+" Employees Status Not Updated to "+status+" Successfully";
 	}

@@ -13,11 +13,11 @@ public class Employee {
 	private String status;
 	private String[] checkBoxes;
 	
-	public void setDeleteCheckBoxes(String[] checkBoxes) {
+	public void setCheckBoxes(String[] checkBoxes) {
 		this.checkBoxes = checkBoxes;
 	}
 	
-	public String[] getDeleteCheckBoxes() {
+	public String[] getCheckBoxes() {
 		return checkBoxes;
 	}
 	

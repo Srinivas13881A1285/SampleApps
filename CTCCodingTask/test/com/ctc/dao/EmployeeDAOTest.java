@@ -63,16 +63,16 @@ public class EmployeeDAOTest {
 	
 	@Test
 	public void employeeUpdateTest() {
-		Mockito.when(jt.update("UPDATE EMP SET STATUS=? WHERE EMPID IN ('EPAM001','EPAM002')","InActive")).thenReturn(1);
+		Mockito.when(jt.update("UPDATE EMP SET STATUS=? WHERE EMPID IN ('EPAM001','EPAM002')","InActive")).thenReturn(2);
 		int actualResult = employeeDao.updateEmployees(new String[] {"EPAM001","EPAM002"},"InActive");
-		assertEquals(1,actualResult);
+		assertEquals(2,actualResult);
 	}
 	
 	@Test
 	public void employeeDeleteTest() {
-		Mockito.when(jt.update("DELETE FROM EMP WHERE EMPID IN ('EPAM001','EPAM002')")).thenReturn(1);
+		Mockito.when(jt.update("DELETE FROM EMP WHERE EMPID IN ('EPAM001','EPAM002')")).thenReturn(2);
 		int actualResult = employeeDao.deleteEmployees(new String[] {"EPAM001","EPAM002"});
-		assertEquals(1,actualResult);
+		assertEquals(2,actualResult);
 	}
 	
 	public EmployeeBO getEmployeeTestData() throws ParseException {

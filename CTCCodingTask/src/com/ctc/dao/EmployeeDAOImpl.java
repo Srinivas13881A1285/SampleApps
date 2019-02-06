@@ -24,12 +24,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	
 
 	@Override
-	public int insert(EmployeeBO employeeBO) {
+	public  int insert(EmployeeBO employeeBO) {
 		return jt.update(INSERT_QRY,employeeBO.getId(),employeeBO.getFirstName(),employeeBO.getLastName(),employeeBO.getEmail(),employeeBO.getContactNumber(),employeeBO.getDateOfJoining(),employeeBO.getStatus());
 	}
 
 	@Override
-	public List<EmployeeBO> getAllEmployees() {
+	public  List<EmployeeBO> getAllEmployees() {
 		return jt.query(GET_ALL_EMPLOYEES_QRY, new EmployeeRowMapper());
 	}
 	
@@ -41,7 +41,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public int deleteEmployees(String[] ids) {
+	public  int deleteEmployees(String[] ids) {
 		String condition;
 		StringBuilder sb = new StringBuilder("(");
 		for(int i=0;i<ids.length;i++) {
@@ -56,7 +56,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public int updateEmployees(String[] ids,String status) {
+	public  int updateEmployees(String[] ids,String status) {
 		String condition;
 		StringBuilder sb = new StringBuilder("(");
 		for(int i=0;i<ids.length;i++) {
@@ -69,8 +69,16 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		condition = sb.toString();
 		return jt.update(UPDATE_QRY.concat(condition),status);
 		
+		
+		
+		
+		
 	}
+	
 
+	
+
+	
 
 
 

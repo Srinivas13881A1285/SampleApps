@@ -91,12 +91,12 @@ public class EmployeeBO {
 	}
 
 	@Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof EmployeeBO)) {
+    public boolean equals(Object anotherObj) {
+        if (anotherObj == this) return true;
+        if (!(anotherObj instanceof EmployeeBO)) {
             return false;
         }
-        EmployeeBO employeeBO = (EmployeeBO) o;
+        EmployeeBO employeeBO = (EmployeeBO) anotherObj;
         return Objects.equals(id,employeeBO.id) &&
         		Objects.equals(firstName, employeeBO.firstName) &&
         		Objects.equals(lastName, employeeBO.lastName) &&

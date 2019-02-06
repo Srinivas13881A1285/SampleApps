@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.AfterClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -27,12 +28,14 @@ public class EmployeeInsertServiceTest {
 	EmployeeDAOImpl employeeDao;
 	
 	@InjectMocks
-	EmployeeInsertServiceImpl employeeService;
+	EmployeeManagementServiceImpl employeeService;
 	
-	static EmployeeDTO employeeDTO;
+	EmployeeDTO employeeDTO;
 	
-	static Date dateOfJoining;
-	public static void setUp() throws ParseException {
+	Date dateOfJoining;
+	
+	@Before
+	public void setUp() throws ParseException {
 		dateOfJoining=new SimpleDateFormat("dd-MM-yyyy").parse("08-01-2018");
 	}
 	
@@ -46,14 +49,14 @@ public class EmployeeInsertServiceTest {
 	
 	@Test
 	public void updateEmployeesTest() {
-		Mockito.when(employeeDao.updateEmployees(new String[] {"EPAM001","EPAM002"},"InActive")).thenReturn(1);
+		Mockito.when(employeeDao.updateEmployees(new String[] {"EPAM001","EPAM002"},"InActive")).thenReturn(2);
 		String actualResult = employeeService.updateEmployees(new String[] {"EPAM001", "EPAM002"},"InActive");
-		assertEquals("{EPAM001, EPAM002} Employees Status  Updated to InActive Successfully",actualResult);
+		assertEquals("{EPAM001, EPAM002} Employees Status Updated to InActive Successfully",actualResult);
 	}
 	
 	@Test
 	public void employeeDeleteTest() {
-		Mockito.when(employeeDao.deleteEmployees(new String[] {"EPAM001","EPAM002"})).thenReturn(1);
+		Mockito.when(employeeDao.deleteEmployees(new String[] {"EPAM001","EPAM002"})).thenReturn(2);
 		String actualResult = employeeService.deleteEmployees(new String[] {"EPAM001","EPAM002"});
 		assertEquals("{EPAM001, EPAM002} Employees Deleted Successfully",actualResult);
 	}
@@ -67,8 +70,8 @@ public class EmployeeInsertServiceTest {
 		assertEquals(actualResult.get(0).getFirstName(),expectedResult.get(0).getFirstName());
 	}
 	
-	@AfterClass
-	public static void tearDown() {
+	@After
+	public void tearDown() {
 		dateOfJoining = null;
 		employeeDTO = null;
 	}

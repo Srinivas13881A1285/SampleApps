@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ctc.command.Employee;
 import com.ctc.dto.EmployeeDTO;
-import com.ctc.service.EmployeeInsertService;
+import com.ctc.service.EmployeeManagementService;
 import com.ctc.validator.EmployeeValidator;
 
 @Controller
 public class EmployeeController{
 	
 	@Autowired
-	private EmployeeInsertService employeeService;
+	private EmployeeManagementService employeeService;
 	
 	@Autowired
 	private EmployeeValidator employeeValidator;
@@ -62,7 +62,7 @@ public class EmployeeController{
 		}
 		String result = employeeService.registerEmployee(employeeDTO);
 		model.addAttribute("result",result);
-		return "result_status";
+		return "resultstatus";
 	}
 	
 	
@@ -78,7 +78,7 @@ public class EmployeeController{
 	public  String updateEmployeeStatusToActive(@RequestParam("checkBoxes")String[] checkboxValues, Map<String, Object> map){
 		String updateResult = employeeService.updateEmployees(checkboxValues,"Active");
 		map.put("result", updateResult);
-		return "result_status";
+		return "resultstatus";
 		
 	}
 	
@@ -87,7 +87,7 @@ public class EmployeeController{
 	public  String updateEmployeeStatusToInActive(@RequestParam("checkBoxes")String[] checkboxValues, Map<String, Object> map){
 		String updateResult = employeeService.updateEmployees(checkboxValues,"InActive");
 		map.put("result", updateResult);
-		return "result_status";
+		return "resultstatus";
 		
 	}
 
@@ -97,7 +97,7 @@ public class EmployeeController{
 	public  String updateEmployeeStatusToNew(@RequestParam("checkBoxes")String[] checkboxValues, Map<String, Object> map){
 		String updateResult = employeeService.updateEmployees(checkboxValues,"New");
 		map.put("result", updateResult);
-		return "result_status";
+		return "resultstatus";
 	}
 
 
@@ -106,7 +106,7 @@ public class EmployeeController{
 		String deleteResult=null;
 			deleteResult=employeeService.deleteEmployees(chboxvals);
 			map.put("result", deleteResult);
-		return "result_status";
+		return "resultstatus";
 	}
 	
 

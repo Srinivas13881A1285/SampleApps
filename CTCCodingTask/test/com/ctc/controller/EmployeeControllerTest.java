@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.ctc.command.Employee;
 import com.ctc.dto.EmployeeDTO;
-import com.ctc.service.EmployeeInsertService;
+import com.ctc.service.EmployeeManagementService;
 import com.ctc.validator.EmployeeValidator;
 
 
@@ -36,7 +36,7 @@ public class EmployeeControllerTest {
 	private  EmployeeController employeeController;
 	
 	@Mock
-	private EmployeeInsertService employeeService;
+	private EmployeeManagementService employeeService;
 	
 	@Mock
 	private EmployeeValidator employeeValidator;
@@ -73,18 +73,18 @@ public class EmployeeControllerTest {
 		Mockito.when(employeeValidator.supports(Employee.class)).thenReturn(true);
 		mockMvc.perform(post("/registerEmployee.htm"))
 				.andExpect(status().isOk())
-				.andExpect(view().name("result_status"));
+				.andExpect(view().name("resultstatus"));
 	}				
 			
 
 	@Test
 	public void testUpdateEmployee() throws Exception{
-		Mockito.when(employeeService.updateEmployees(new String[] {"EPAM001,EPAM002"},"InActive")).thenReturn("{EPAM001, EPAM002} Employees Status  Updated to InActive Successfully");
+		Mockito.when(employeeService.updateEmployees(new String[] {"EPAM001,EPAM002"},"InActive")).thenReturn("{EPAM001, EPAM002} Employees Status Updated to InActive Successfully");
 		mockMvc.perform(post("/updateStatusToInActive.htm").param("checkBoxes", new String[] {"EPAM001,EPAM002"}))
 			.andExpect(status().isOk())
-			.andExpect(view().name("result_status"))
+			.andExpect(view().name("resultstatus"))
 			.andExpect(model().attributeExists("result"))
-			.andExpect(model().attribute("result", "{EPAM001, EPAM002} Employees Status  Updated to InActive Successfully"));
+			.andExpect(model().attribute("result", "{EPAM001, EPAM002} Employees Status Updated to InActive Successfully"));
 	}
 	
 	@Test
@@ -92,7 +92,7 @@ public class EmployeeControllerTest {
 		Mockito.when(employeeService.deleteEmployees(new String[]{"EPAM001","EPAM002"})).thenReturn("{EPAM001, EPAM002} Employees Deleted Successfully");
 		mockMvc.perform(post("/deleteEmployees.htm").param("checkBoxes", new String[] {"EPAM001","EPAM002"}))
 				.andExpect(status().isOk())
-				.andExpect(view().name("result_status"))
+				.andExpect(view().name("resultstatus"))
 				.andExpect(model().attributeExists("result"))
 				.andExpect(model().attribute("result", "{EPAM001, EPAM002} Employees Deleted Successfully"));
 	}
