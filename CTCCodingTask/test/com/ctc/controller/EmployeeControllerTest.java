@@ -1,4 +1,4 @@
-package test;
+package com.ctc.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -23,17 +24,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.ctc.command.Employee;
-import com.ctc.controller.EmployeeController;
 import com.ctc.dto.EmployeeDTO;
 import com.ctc.service.EmployeeInsertService;
 import com.ctc.validator.EmployeeValidator;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class EmployeeControllerTest3 {
+public class EmployeeControllerTest {
 
 	@InjectMocks
-	private EmployeeController employeeController;
+	private  EmployeeController employeeController;
 	
 	@Mock
 	private EmployeeInsertService employeeService;
@@ -41,18 +41,18 @@ public class EmployeeControllerTest3 {
 	@Mock
 	private EmployeeValidator employeeValidator;
 	
-	private MockMvc mockMvc;
+	private  MockMvc mockMvc;
 	
-	static Date date1;
+	 Date date1;
 	
-	@BeforeClass
-	public static void setUp() throws ParseException {
+	@Before
+	public  void setUp() throws ParseException {
 		date1=new SimpleDateFormat("dd-MM-yyyy").parse("08-01-2018");
+		mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
 	}
 	
 	@Test
 	public void testWelcome() throws Exception {
-		mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
 		mockMvc.perform(get("/welcome.htm"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("welcome"));
@@ -60,53 +60,48 @@ public class EmployeeControllerTest3 {
 	
 	@Test
 	public void testDisplayForm() throws Exception {
-		mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
-		mockMvc.perform(get("/insert.htm"))
+		mockMvc.perform(get("/getRegistrationForm.htm"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("input"))
+			.andExpect(view().name("employeeregistration"))
 			.andExpect(model().attributeExists("employee"));
 	}
 	
 	@Test
 	public void testSubmitForm() throws Exception{
-		mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
 		EmployeeDTO employeeDTO = getEmployeeTestData();
-		Mockito.when(employeeService.registerEmployee(employeeDTO)).thenReturn("Insertion Success");
+		Mockito.when(employeeService.registerEmployee(employeeDTO)).thenReturn("Employee Added Successfully");
 		Mockito.when(employeeValidator.supports(Employee.class)).thenReturn(true);
-		mockMvc.perform(post("/insert.htm"))
+		mockMvc.perform(post("/registerEmployee.htm"))
 				.andExpect(status().isOk())
-				.andExpect(view().name("result"));
+				.andExpect(view().name("result_status"));
 	}				
 			
 
 	@Test
 	public void testUpdateEmployee() throws Exception{
-		mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
-		Mockito.when(employeeService.updateEmployees(new String[] {"1"},"New")).thenReturn("Update Success");
-		mockMvc.perform(post("/editEmpNew.htm").param("checkBoxes", new String[] {"1"}))
+		Mockito.when(employeeService.updateEmployees(new String[] {"EPAM001,EPAM002"},"InActive")).thenReturn("{EPAM001, EPAM002} Employees Status  Updated to InActive Successfully");
+		mockMvc.perform(post("/updateStatusToInActive.htm").param("checkBoxes", new String[] {"EPAM001,EPAM002"}))
 			.andExpect(status().isOk())
-			.andExpect(view().name("result"))
+			.andExpect(view().name("result_status"))
 			.andExpect(model().attributeExists("result"))
-			.andExpect(model().attribute("result", "Update Success"));
+			.andExpect(model().attribute("result", "{EPAM001, EPAM002} Employees Status  Updated to InActive Successfully"));
 	}
 	
 	@Test
 	public void testDeleteEmployee() throws Exception {
-		mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
-		Mockito.when(employeeService.deleteEmployees(new String[]{"1","2"})).thenReturn("Delete Successful");
-		mockMvc.perform(post("/deleteEmp.htm").param("checkBoxes", new String[] {"1","2"}))
+		Mockito.when(employeeService.deleteEmployees(new String[]{"EPAM001","EPAM002"})).thenReturn("{EPAM001, EPAM002} Employees Deleted Successfully");
+		mockMvc.perform(post("/deleteEmployees.htm").param("checkBoxes", new String[] {"EPAM001","EPAM002"}))
 				.andExpect(status().isOk())
-				.andExpect(view().name("result"))
+				.andExpect(view().name("result_status"))
 				.andExpect(model().attributeExists("result"))
-				.andExpect(model().attribute("result", "Delete Successful"));
+				.andExpect(model().attribute("result", "{EPAM001, EPAM002} Employees Deleted Successfully"));
 	}
 	
 	@Test
 	public void testShowAllEmployees() throws Exception {
-		mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
-		List<EmployeeDTO> listOfEmployeeDTO = getListOfEmployeesTestData();
-		Mockito.when(employeeService.getAllEmployeesList()).thenReturn(getListOfEmployeesTestData());
-		mockMvc.perform(get("/selectAll.htm")).andExpect(status().isOk()).andExpect(view().name("show_all")).andExpect(model().attributeExists("listDTO")).andExpect(model().attribute("listDTO", listOfEmployeeDTO));
+		List<EmployeeDTO> listOfEmployeeDTO = getListOfEmployeesDTOTestData();
+		Mockito.when(employeeService.getAllEmployeesList()).thenReturn(getListOfEmployeesDTOTestData());
+		mockMvc.perform(get("/getAllEmployees.htm")).andExpect(status().isOk()).andExpect(view().name("allemployeedetails")).andExpect(model().attributeExists("listDTO")).andExpect(model().attribute("listDTO", listOfEmployeeDTO));
 	}
 	
 	public EmployeeDTO getEmployeeTestData() throws ParseException {
@@ -121,12 +116,18 @@ public class EmployeeControllerTest3 {
 		employeeDTO.setStatus("New");
 		return employeeDTO;
 	}
-	public List<EmployeeDTO> getListOfEmployeesTestData() throws ParseException{
+	public List<EmployeeDTO> getListOfEmployeesDTOTestData() throws ParseException{
 		EmployeeDTO employeeDTOOne = new EmployeeDTO("EPAM001","Srinivas","Chintakindhi","srinivas_chintakindhi","9866436639",date1,"Active");
 		EmployeeDTO employeeDTOTwo = new EmployeeDTO("EPAM002","Akhter","Rasool","akhter_rasool","9866436639",date1,"Active");
 		List<EmployeeDTO> listOfEmployeeDTO = new ArrayList<>();
 		listOfEmployeeDTO.add(employeeDTOOne);
 		listOfEmployeeDTO.add(employeeDTOTwo);
 		return listOfEmployeeDTO;
+	}
+	
+	@After
+	public void tearDown() {
+		date1 = null;
+		mockMvc = null;
 	}
 }

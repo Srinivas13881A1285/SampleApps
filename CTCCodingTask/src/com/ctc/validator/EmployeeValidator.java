@@ -19,7 +19,7 @@ public class EmployeeValidator implements Validator {
 	}
 
 	@Override
-	public final void validate(Object cmd, Errors errors) {
+	public void validate(Object cmd, Errors errors) {
 		Employee employeeCommand = (Employee)cmd;
 		String employeeId = employeeCommand.getId();
 		String firstName = employeeCommand.getFirstName();

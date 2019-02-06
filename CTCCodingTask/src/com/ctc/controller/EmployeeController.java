@@ -37,14 +37,14 @@ public class EmployeeController{
 	}
 	
 
-	@RequestMapping(value="/insert.htm", method=RequestMethod.GET)
+	@RequestMapping(value="/getRegistrationForm.htm", method=RequestMethod.GET)
 	public String displayForm(Model model) {
 		Employee employeeCommand = new  Employee();
 		model.addAttribute("employee", employeeCommand);
-		return "input";		
+		return "employeeregistration";		
 	}
 	
-	@RequestMapping(value="/insert.htm", method=RequestMethod.POST)
+	@RequestMapping(value="/registerEmployee.htm", method=RequestMethod.POST)
 	public String register(Model model,@ModelAttribute("employee") Employee cmd ,BindingResult errors) {
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 		employeeDTO.setId(cmd.getId());
@@ -57,57 +57,56 @@ public class EmployeeController{
 		if(employeeValidator.supports(Employee.class)) {
 			employeeValidator.validate(cmd, errors);
 			if(errors.hasErrors()) {
-				return "input";
+				return "employeeregistration";
 			} 
 		}
 		String result = employeeService.registerEmployee(employeeDTO);
 		model.addAttribute("result",result);
-		return "result";
+		return "result_status";
 	}
 	
 	
-	@RequestMapping(value="/selectAll.htm")
+	@RequestMapping(value="/getAllEmployees.htm")
 	public  String retriveAllEmployees(Map<String,Object> map){
 		List<EmployeeDTO> listDTO=null;
 		listDTO=employeeService.getAllEmployeesList();
 		map.put("listDTO",listDTO);
-		return   "show_all";
+		return   "allemployeedetails";
 	}
 	
-	@RequestMapping(value="/editEmpActive.htm" , method=RequestMethod.POST)
+	@RequestMapping(value="/updateStatusToActive.htm" , method=RequestMethod.POST)
 	public  String updateEmployeeStatusToActive(@RequestParam("checkBoxes")String[] checkboxValues, Map<String, Object> map){
 		String updateResult = employeeService.updateEmployees(checkboxValues,"Active");
 		map.put("result", updateResult);
-		return "result";
+		return "result_status";
 		
-	}//retriveEmployeeByEmpNo(-,-)
+	}
 	
 	
-	@RequestMapping(value="/editEmpInactive.htm" , method=RequestMethod.POST)
+	@RequestMapping(value="/updateStatusToInActive.htm" , method=RequestMethod.POST)
 	public  String updateEmployeeStatusToInActive(@RequestParam("checkBoxes")String[] checkboxValues, Map<String, Object> map){
 		String updateResult = employeeService.updateEmployees(checkboxValues,"InActive");
 		map.put("result", updateResult);
-		return "result";
-		
-	}//retriveEmployeeByEmpNo(-,-)
-
-	
-
-	@RequestMapping(value="/editEmpNew.htm" , method=RequestMethod.POST)
-	public  String updateEmployeeStatusToNew(@RequestParam("checkBoxes")String[] checkboxValues, Map<String, Object> map){
-		String updateResult = employeeService.updateEmployees(checkboxValues,"New");
-		map.put("result", updateResult);
-		return "result";
+		return "result_status";
 		
 	}
 
+	
 
-	@RequestMapping(value="/deleteEmp.htm", method=RequestMethod.POST)
+	@RequestMapping(value="/updateStatusToNew.htm" , method=RequestMethod.POST)
+	public  String updateEmployeeStatusToNew(@RequestParam("checkBoxes")String[] checkboxValues, Map<String, Object> map){
+		String updateResult = employeeService.updateEmployees(checkboxValues,"New");
+		map.put("result", updateResult);
+		return "result_status";
+	}
+
+
+	@RequestMapping(value="/deleteEmployees.htm", method=RequestMethod.POST)
 	public String deleteEmployeeDetails(@RequestParam("checkBoxes")String[] chboxvals,  Map<String,Object> map) {
 		String deleteResult=null;
 			deleteResult=employeeService.deleteEmployees(chboxvals);
 			map.put("result", deleteResult);
-		return "result";
+		return "result_status";
 	}
 	
 

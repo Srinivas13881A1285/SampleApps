@@ -6,7 +6,7 @@
 
 
 
-<form:form method="post" commandName="employee">
+<form:form method="post" action = "registerEmployee.htm" commandName="employee">
 
 	<span style='color: red'><form:errors path="*" /></span><br>
 	<br>
@@ -27,10 +27,10 @@
 	
 	Status:<form:input path="status"/>(New/Active/InActive)<br><br>
 	
-	<input type="submit" value="Login" />
+	<input type="submit" value="Add" />
 	<br>
 </form:form>
-
+  <a href="welcome.htm">HOME</a>
 <br>
 
 

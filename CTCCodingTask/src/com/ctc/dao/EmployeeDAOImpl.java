@@ -22,19 +22,18 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Autowired
 	private JdbcTemplate jt;
 	
-	
 
 	@Override
-	public  final int insert(EmployeeBO employeeBO) {
+	public int insert(EmployeeBO employeeBO) {
 		return jt.update(INSERT_QRY,employeeBO.getId(),employeeBO.getFirstName(),employeeBO.getLastName(),employeeBO.getEmail(),employeeBO.getContactNumber(),employeeBO.getDateOfJoining(),employeeBO.getStatus());
 	}
 
 	@Override
-	public  final List<EmployeeBO> getAllEmployees() {
+	public List<EmployeeBO> getAllEmployees() {
 		return jt.query(GET_ALL_EMPLOYEES_QRY, new EmployeeRowMapper());
 	}
 	
-	public class EmployeeRowMapper implements RowMapper<EmployeeBO>{
+	private class EmployeeRowMapper implements RowMapper<EmployeeBO>{
 		@Override
 		public EmployeeBO mapRow(ResultSet rs, int pos) throws SQLException {
 			return new EmployeeBO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getDate(6),rs.getString(7));
@@ -42,7 +41,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public final int deleteEmployees(String[] ids) {
+	public int deleteEmployees(String[] ids) {
 		String condition;
 		StringBuilder sb = new StringBuilder("(");
 		for(int i=0;i<ids.length;i++) {
@@ -57,7 +56,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public final int updateEmployees(String[] ids,String status) {
+	public int updateEmployees(String[] ids,String status) {
 		String condition;
 		StringBuilder sb = new StringBuilder("(");
 		for(int i=0;i<ids.length;i++) {

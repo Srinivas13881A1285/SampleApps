@@ -1,6 +1,7 @@
 package com.ctc.bo;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class EmployeeBO {
 	private String id;
@@ -89,6 +90,25 @@ public class EmployeeBO {
 				+ ", contactNumber=" + contactNumber + ", dateOfJoining=" + dateOfJoining + ", status=" + status + "]";
 	}
 
-	
+	@Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof EmployeeBO)) {
+            return false;
+        }
+        EmployeeBO employeeBO = (EmployeeBO) o;
+        return Objects.equals(id,employeeBO.id) &&
+        		Objects.equals(firstName, employeeBO.firstName) &&
+        		Objects.equals(lastName, employeeBO.lastName) &&
+        		Objects.equals(email, employeeBO.email) &&
+        		Objects.equals(contactNumber, employeeBO.contactNumber) &&
+        		Objects.equals(dateOfJoining,employeeBO.dateOfJoining) &&
+        		Objects.equals(status,employeeBO.status);
+    }
+
+	@Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName,email,contactNumber,dateOfJoining,status);
+    }
 	
 }
