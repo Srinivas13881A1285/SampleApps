@@ -2,7 +2,6 @@ package com.ctc.service;
 
 import java.util.List;
 
-import com.ctc.bo.EmployeeBO;
 import com.ctc.dto.EmployeeDTO;
 
 public interface EmployeeInsertService {

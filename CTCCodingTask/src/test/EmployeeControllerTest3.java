@@ -22,9 +22,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.ctc.command.Employee;
 import com.ctc.controller.EmployeeController;
 import com.ctc.dto.EmployeeDTO;
 import com.ctc.service.EmployeeInsertService;
+import com.ctc.validator.EmployeeValidator;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -35,6 +37,9 @@ public class EmployeeControllerTest3 {
 	
 	@Mock
 	private EmployeeInsertService employeeService;
+	
+	@Mock
+	private EmployeeValidator employeeValidator;
 	
 	private MockMvc mockMvc;
 	
@@ -51,7 +56,6 @@ public class EmployeeControllerTest3 {
 		mockMvc.perform(get("/welcome.htm"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("welcome"));
-		
 	}
 	
 	@Test
@@ -60,31 +64,51 @@ public class EmployeeControllerTest3 {
 		mockMvc.perform(get("/insert.htm"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("input"))
-			.andExpect(model().attributeExists("employe1e"));
+			.andExpect(model().attributeExists("employee"));
 	}
 	
 	@Test
 	public void testSubmitForm() throws Exception{
 		mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
 		EmployeeDTO employeeDTO = getEmployeeTestData();
-		Mockito.when(employeeService.registerEmployee(employeeDTO)).thenReturn("Update Success");
+		Mockito.when(employeeService.registerEmployee(employeeDTO)).thenReturn("Insertion Success");
+		Mockito.when(employeeValidator.supports(Employee.class)).thenReturn(true);
 		mockMvc.perform(post("/insert.htm"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("result"));
-				//.andExpect(model().attributeExists("result"));
-				//.andExpect(model().attribute("statusMessage", "Update Success"));
-	}
+	}				
+			
 
 	@Test
 	public void testUpdateEmployee() throws Exception{
 		mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
-		Mockito.when(employeeService.updateEmployees(new String[] {"1", "2"},"New")).thenReturn("Update Sucess");
-		mockMvc.perform(post("/editEmpNew.htm"))
+		Mockito.when(employeeService.updateEmployees(new String[] {"1"},"New")).thenReturn("Update Success");
+		mockMvc.perform(post("/editEmpNew.htm").param("checkBoxes", new String[] {"1"}))
 			.andExpect(status().isOk())
 			.andExpect(view().name("result"))
 			.andExpect(model().attributeExists("result"))
 			.andExpect(model().attribute("result", "Update Success"));
 	}
+	
+	@Test
+	public void testDeleteEmployee() throws Exception {
+		mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
+		Mockito.when(employeeService.deleteEmployees(new String[]{"1","2"})).thenReturn("Delete Successful");
+		mockMvc.perform(post("/deleteEmp.htm").param("checkBoxes", new String[] {"1","2"}))
+				.andExpect(status().isOk())
+				.andExpect(view().name("result"))
+				.andExpect(model().attributeExists("result"))
+				.andExpect(model().attribute("result", "Delete Successful"));
+	}
+	
+	@Test
+	public void testShowAllEmployees() throws Exception {
+		mockMvc = MockMvcBuilders.standaloneSetup(employeeController).build();
+		List<EmployeeDTO> listOfEmployeeDTO = getListOfEmployeesTestData();
+		Mockito.when(employeeService.getAllEmployeesList()).thenReturn(getListOfEmployeesTestData());
+		mockMvc.perform(get("/selectAll.htm")).andExpect(status().isOk()).andExpect(view().name("show_all")).andExpect(model().attributeExists("listDTO")).andExpect(model().attribute("listDTO", listOfEmployeeDTO));
+	}
+	
 	public EmployeeDTO getEmployeeTestData() throws ParseException {
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 		employeeDTO.setId("EPAM100");

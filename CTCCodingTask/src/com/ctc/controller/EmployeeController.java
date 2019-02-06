@@ -1,7 +1,6 @@
 package com.ctc.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +46,6 @@ public class EmployeeController{
 	
 	@RequestMapping(value="/insert.htm", method=RequestMethod.POST)
 	public String register(Model model,@ModelAttribute("employee") Employee cmd ,BindingResult errors) {
-		
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 		employeeDTO.setId(cmd.getId());
 		employeeDTO.setFirstName(cmd.getFirstName());
@@ -56,14 +54,12 @@ public class EmployeeController{
 		employeeDTO.setContactNumber(cmd.getContactNumber());
 		employeeDTO.setDateOfJoining(cmd.getDateOfJoining());
 		employeeDTO.setStatus(cmd.getStatus());
-		
 		if(employeeValidator.supports(Employee.class)) {
 			employeeValidator.validate(cmd, errors);
 			if(errors.hasErrors()) {
 				return "input";
 			} 
 		}
-		
 		String result = employeeService.registerEmployee(employeeDTO);
 		model.addAttribute("result",result);
 		return "result";
@@ -73,7 +69,6 @@ public class EmployeeController{
 	@RequestMapping(value="/selectAll.htm")
 	public  String retriveAllEmployees(Map<String,Object> map){
 		List<EmployeeDTO> listDTO=null;
-		//use service
 		listDTO=employeeService.getAllEmployeesList();
 		map.put("listDTO",listDTO);
 		return   "show_all";
@@ -104,19 +99,16 @@ public class EmployeeController{
 		map.put("result", updateResult);
 		return "result";
 		
-	}//retriveEmployeeByEmpNo(-,-)
-
-
+	}
 
 
 	@RequestMapping(value="/deleteEmp.htm", method=RequestMethod.POST)
 	public String deleteEmployeeDetails(@RequestParam("checkBoxes")String[] chboxvals,  Map<String,Object> map) {
 		String deleteResult=null;
-		System.out.println("deleteeeeeeeeeeEMP :::"+Arrays.toString(chboxvals));
 			deleteResult=employeeService.deleteEmployees(chboxvals);
 			map.put("result", deleteResult);
 		return "result";
-	}//deleteEmployeeDetails
+	}
 	
 
 	@InitBinder

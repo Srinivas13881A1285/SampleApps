@@ -1,13 +1,10 @@
 package com.ctc.dao;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -28,30 +25,26 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	
 
 	@Override
-	public  int insert(EmployeeBO employeeBO) {
-		int result = jt.update(INSERT_QRY,employeeBO.getId(),employeeBO.getFirstName(),employeeBO.getLastName(),employeeBO.getEmail(),employeeBO.getContactNumber(),employeeBO.getDateOfJoining(),employeeBO.getStatus());
-		System.out.println("insertin result"+result);
-		return result;
+	public  final int insert(EmployeeBO employeeBO) {
+		return jt.update(INSERT_QRY,employeeBO.getId(),employeeBO.getFirstName(),employeeBO.getLastName(),employeeBO.getEmail(),employeeBO.getContactNumber(),employeeBO.getDateOfJoining(),employeeBO.getStatus());
 	}
 
 	@Override
-	public  List<EmployeeBO> getAllEmployees() {
-		List<EmployeeBO> listBO = (List<EmployeeBO>)jt.query(GET_ALL_EMPLOYEES_QRY, new EmployeeRowMapper());
-		return listBO;
+	public  final List<EmployeeBO> getAllEmployees() {
+		return jt.query(GET_ALL_EMPLOYEES_QRY, new EmployeeRowMapper());
 	}
 	
 	public class EmployeeRowMapper implements RowMapper<EmployeeBO>{
 		@Override
 		public EmployeeBO mapRow(ResultSet rs, int pos) throws SQLException {
-			EmployeeBO  empbo = new EmployeeBO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getDate(6),rs.getString(7));
-			return empbo;
+			return new EmployeeBO(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getDate(6),rs.getString(7));
 		}
 	}
 
 	@Override
-	public int deleteEmployees(String[] ids) {
+	public final int deleteEmployees(String[] ids) {
 		String condition;
-		StringBuffer sb = new StringBuffer("(");
+		StringBuilder sb = new StringBuilder("(");
 		for(int i=0;i<ids.length;i++) {
 			if(i==ids.length-1)
 				sb.append("'"+ids[i]+"'");
@@ -60,15 +53,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 		sb.append(")");
 		condition = sb.toString();
-		System.out.println(DELETE_EMP_BY_NO.concat(condition));
-		int result =jt.update(DELETE_EMP_BY_NO.concat(condition));
-		return result;
+		return jt.update(DELETE_EMP_BY_NO.concat(condition));
 	}
 
 	@Override
-	public int updateEmployees(String[] ids,String status) {
+	public final int updateEmployees(String[] ids,String status) {
 		String condition;
-		StringBuffer sb = new StringBuffer("(");
+		StringBuilder sb = new StringBuilder("(");
 		for(int i=0;i<ids.length;i++) {
 			if(i==ids.length-1)
 				sb.append("'"+ids[i]+"'");
@@ -77,9 +68,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 		sb.append(")");
 		condition = sb.toString();
-		System.out.println(UPDATE_QRY.concat(condition));
-		int result =jt.update(UPDATE_QRY.concat(condition),status);
-		return result;
+		return jt.update(UPDATE_QRY.concat(condition),status);
+		
 	}
 
 

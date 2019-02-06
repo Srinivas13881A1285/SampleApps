@@ -19,7 +19,7 @@ public class EmployeeValidator implements Validator {
 	}
 
 	@Override
-	public void validate(Object cmd, Errors errors) {
+	public final void validate(Object cmd, Errors errors) {
 		Employee employeeCommand = (Employee)cmd;
 		String employeeId = employeeCommand.getId();
 		String firstName = employeeCommand.getFirstName();
@@ -51,7 +51,7 @@ public class EmployeeValidator implements Validator {
 		if(contactNumber== null || contactNumber.equals("") || contactNumber.length()==0)
 			errors.rejectValue("contactNumber", "contact.required");
 		else if(!Pattern.matches("(0|91)?[7-9][0-9]{9}",contactNumber))
-			errors.rejectValue("contactNumber", "contactnumber.pattern");
+			errors.rejectValue("contactNumber", "contact.pattern");
 		
 		if(dateOfJoining == null)
 			errors.rejectValue("dateOfJoining", "dob.required");

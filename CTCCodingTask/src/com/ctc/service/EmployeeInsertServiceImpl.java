@@ -19,7 +19,7 @@ public class EmployeeInsertServiceImpl implements EmployeeInsertService {
 		this.employeeDao =employeeDao;
 	}
 	@Override
-	public String registerEmployee(EmployeeDTO employeeDTO) {
+	public final String registerEmployee(EmployeeDTO employeeDTO) {
 		EmployeeBO employeeBO = new EmployeeBO(employeeDTO.getId(),employeeDTO.getFirstName(),employeeDTO.getLastName(),employeeDTO.getEmail(),employeeDTO.getContactNumber(),employeeDTO.getDateOfJoining(),employeeDTO.getStatus());
 		int result = employeeDao.insert(employeeBO);
 		if(result == 1)
@@ -29,7 +29,7 @@ public class EmployeeInsertServiceImpl implements EmployeeInsertService {
 	}
 
 	@Override
-	public List<EmployeeDTO> getAllEmployeesList() {
+	public final List<EmployeeDTO> getAllEmployeesList() {
 		List<EmployeeBO> listOfEmployeeBO = employeeDao.getAllEmployees();
 		List<EmployeeDTO> listOfEmployeeDTO = new ArrayList<EmployeeDTO>();
 		for(EmployeeBO employeeBO : listOfEmployeeBO) {
@@ -40,7 +40,7 @@ public class EmployeeInsertServiceImpl implements EmployeeInsertService {
 	}
 
 	@Override
-	public String deleteEmployees(String[] Ids) {
+	public final String deleteEmployees(String[] Ids) {
 		int result = employeeDao.deleteEmployees(Ids);
 		if(result==0)
 			return "Delete unsucessful";
@@ -48,7 +48,7 @@ public class EmployeeInsertServiceImpl implements EmployeeInsertService {
 			return "Delete Successful";
 	}
 	@Override
-	public String updateEmployees(String[] ids,String status) {
+	public final String updateEmployees(String[] ids,String status) {
 		int result = employeeDao.updateEmployees(ids,status);
 		if(result ==  0)
 			return "Update Fail";
