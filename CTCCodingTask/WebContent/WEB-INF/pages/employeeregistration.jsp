@@ -1,7 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <h1>
-	<center>Login Page</center>
+	<center>Registration Page</center>
 </h1>
 
 

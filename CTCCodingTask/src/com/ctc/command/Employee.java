@@ -3,7 +3,7 @@ package com.ctc.command;
 import java.util.Date;
 
 public class Employee {
-	
+
 	private String id;
 	private String firstName;
 	private String lastName;
@@ -12,15 +12,15 @@ public class Employee {
 	private Date dateOfJoining;
 	private String status;
 	private String[] checkBoxes;
-	
+
 	public void setCheckBoxes(String[] checkBoxes) {
 		this.checkBoxes = checkBoxes;
 	}
-	
+
 	public String[] getCheckBoxes() {
 		return checkBoxes;
 	}
-	
+
 	public Employee() {
 	}
 
@@ -97,8 +97,5 @@ public class Employee {
 		return "EmployeeCommand [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", contactNumber=" + contactNumber + ", dateOfJoining=" + dateOfJoining + ", status=" + status + "]";
 	}
-	
-	
-	
 
 }

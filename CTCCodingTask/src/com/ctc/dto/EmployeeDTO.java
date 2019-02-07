@@ -11,9 +11,9 @@ public class EmployeeDTO {
 	private String contactNumber;
 	private Date dateOfJoining;
 	private String status;
-	
+
 	public EmployeeDTO() {
-		
+
 	}
 
 	public EmployeeDTO(String id, String firstName, String lastName, String email, String contactNumber,
@@ -89,25 +89,24 @@ public class EmployeeDTO {
 		return "EmployeeDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", contactNumber=" + contactNumber + ", dateOfJoining=" + dateOfJoining + ", status=" + status + "]";
 	}
-	
-	@Override
-    public boolean equals(Object o) {
-        if (o == this) return true;
-        if (!(o instanceof EmployeeDTO)) {
-            return false;
-        }
-        EmployeeDTO employeeDTO = (EmployeeDTO) o;
-        return Objects.equals(id,employeeDTO.id) &&
-        		Objects.equals(firstName, employeeDTO.firstName) &&
-        		Objects.equals(lastName, employeeDTO.lastName) &&
-        		Objects.equals(email, employeeDTO.email) &&
-        		Objects.equals(contactNumber, employeeDTO.contactNumber) &&
-        		Objects.equals(dateOfJoining,employeeDTO.dateOfJoining) &&
-        		Objects.equals(status,employeeDTO.status);
-    }
 
 	@Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName,email,contactNumber,dateOfJoining,status);
-    }
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof EmployeeDTO)) {
+			return false;
+		}
+		EmployeeDTO employeeDTO = (EmployeeDTO) o;
+		return Objects.equals(id, employeeDTO.id) && Objects.equals(firstName, employeeDTO.firstName)
+				&& Objects.equals(lastName, employeeDTO.lastName) && Objects.equals(email, employeeDTO.email)
+				&& Objects.equals(contactNumber, employeeDTO.contactNumber)
+				&& Objects.equals(dateOfJoining, employeeDTO.dateOfJoining)
+				&& Objects.equals(status, employeeDTO.status);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, firstName, lastName, email, contactNumber, dateOfJoining, status);
+	}
 }

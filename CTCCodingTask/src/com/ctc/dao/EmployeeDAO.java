@@ -5,8 +5,11 @@ import java.util.List;
 import com.ctc.bo.EmployeeBO;
 
 public interface EmployeeDAO {
-	public int insert(EmployeeBO employeeBO);
-	public List<EmployeeBO> getAllEmployees();
+	public int insertEmployee(EmployeeBO employeeBO);
+
+	public List<EmployeeBO> fetchAllEmployees();
+
 	public int deleteEmployees(String[] ids);
-	public int updateEmployees(String[] ids,String status);
+
+	public int updateEmployeesStatus(String[] ids, String status);
 }

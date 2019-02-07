@@ -20,16 +20,16 @@
 				<th>DateOfJoining</th>
 				<th>Status</th>
 			</tr>
-			<c:forEach var="dto" items="${listDTO}">
+			<c:forEach var="employee" items="${employeesList}">
 				<tr>
-					<td>${dto.id}</td>
-					<td>${dto.firstName}</td>
-					<td>${dto.lastName}</td>
-					<td>${dto.email}</td>
-					<td>${dto.contactNumber}</td>
-					<td>${dto.dateOfJoining}</td>
-					<td>${dto.status}</td>
-					<td><input type="checkbox" name="checkBoxes" value="${dto.id}"></td>
+					<td>${employee.id}</td>
+					<td>${employee.firstName}</td>
+					<td>${employee.lastName}</td>
+					<td>${employee.email}</td>
+					<td>${employee.contactNumber}</td>
+					<td>${employee.dateOfJoining}</td>
+					<td>${employee.status}</td>
+					<td><input type="checkbox" name="checkBoxes" value="${employee.id}"></td>
 				</tr>
 			</c:forEach>
 		</table>

@@ -11,9 +11,9 @@ public class EmployeeBO {
 	private String contactNumber;
 	private Date dateOfJoining;
 	private String status;
-	
+
 	public EmployeeBO() {
-		
+
 	}
 
 	public EmployeeBO(String id, String firstName, String lastName, String email, String contactNumber,
@@ -91,24 +91,22 @@ public class EmployeeBO {
 	}
 
 	@Override
-    public boolean equals(Object anotherObj) {
-        if (anotherObj == this) return true;
-        if (!(anotherObj instanceof EmployeeBO)) {
-            return false;
-        }
-        EmployeeBO employeeBO = (EmployeeBO) anotherObj;
-        return Objects.equals(id,employeeBO.id) &&
-        		Objects.equals(firstName, employeeBO.firstName) &&
-        		Objects.equals(lastName, employeeBO.lastName) &&
-        		Objects.equals(email, employeeBO.email) &&
-        		Objects.equals(contactNumber, employeeBO.contactNumber) &&
-        		Objects.equals(dateOfJoining,employeeBO.dateOfJoining) &&
-        		Objects.equals(status,employeeBO.status);
-    }
+	public boolean equals(Object anotherObj) {
+		if (anotherObj == this)
+			return true;
+		if (!(anotherObj instanceof EmployeeBO)) {
+			return false;
+		}
+		EmployeeBO employeeBO = (EmployeeBO) anotherObj;
+		return Objects.equals(id, employeeBO.id) && Objects.equals(firstName, employeeBO.firstName)
+				&& Objects.equals(lastName, employeeBO.lastName) && Objects.equals(email, employeeBO.email)
+				&& Objects.equals(contactNumber, employeeBO.contactNumber)
+				&& Objects.equals(dateOfJoining, employeeBO.dateOfJoining) && Objects.equals(status, employeeBO.status);
+	}
 
 	@Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName,email,contactNumber,dateOfJoining,status);
-    }
-	
+	public int hashCode() {
+		return Objects.hash(id, firstName, lastName, email, contactNumber, dateOfJoining, status);
+	}
+
 }
